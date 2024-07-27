@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProfileStore } from '../stores/profile-store';
+import { useNavigation } from '@react-navigation/native';
+import { useLoanCalculator } from '../hooks/useLoanCalculator';
 
 export const LoanForm = () => {
     const { name, email, phone, direction, mount, interest, rate, refundDate, changeProfile } = useProfileStore();
@@ -14,8 +16,17 @@ export const LoanForm = () => {
     const [localRate, setLocalRate] = useState(rate);
     const [localRefundDate, setLocalRefundDate] = useState(refundDate);
 
+    const navigation = useNavigation();
+
+    const {quota, calculateQuota} = useLoanCalculator();
+
     const handleSaveProfile = () => {
         changeProfile(localName, localEmail, localPhone, localDirection, localMount, localInterest, localRate, localRefundDate);
+        
+        calculateQuota(interest, mount, rate);
+
+        console.log(quota.toFixed(2).toString());
+        
     };
 
     const handleNumericInput = (setter: React.Dispatch<React.SetStateAction<number>>, value: string) => {

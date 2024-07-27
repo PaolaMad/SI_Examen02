@@ -18,9 +18,9 @@ export const useProfileStore = create<ProfileData>((set) => ({
     email: '',
     phone: '',
     direction: '',
-    mount: 9,
-    interest: 4,
-    rate: 4,
+    mount: 0,
+    interest: 0,
+    rate: 0,
     refundDate: '',
 
     changeProfile: (name: string, email: string, phone: string, direction: string, mount: number, interest: number, rate: number, refundDate: string) => {
