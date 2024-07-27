@@ -1,10 +1,10 @@
-import { Text, View } from 'react-native';
-import { useLoanCalculator } from '../../hooks/useLoanCalculator';
+import { AmortizationPlan } from '../../components/AmortizationPlan';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const DetailsScreen = () => {
     return (
-        <View>
-            <Text>DetailsScreen</Text>
-        </View>
+        <ScrollView style={{ flex: 1, backgroundColor: '#e3e3e3' }}>
+            <AmortizationPlan />
+        </ScrollView>
     );
 };

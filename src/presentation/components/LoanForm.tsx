@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useProfileStore } from '../stores/profile-store';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { useLoanCalculator } from '../hooks/useLoanCalculator';
+import { RootStackParams } from '../routes/Navigation';
 
 export const LoanForm = () => {
     const { name, email, phone, direction, mount, interest, rate, refundDate, changeProfile } = useProfileStore();
+
+    const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
     const [localName, setLocalName] = useState(name);
     const [localEmail, setLocalEmail] = useState(email);
@@ -16,17 +19,24 @@ export const LoanForm = () => {
     const [localRate, setLocalRate] = useState(rate);
     const [localRefundDate, setLocalRefundDate] = useState(refundDate);
 
-    const navigation = useNavigation();
 
     const {quota, calculateQuota} = useLoanCalculator();
 
     const handleSaveProfile = () => {
         changeProfile(localName, localEmail, localPhone, localDirection, localMount, localInterest, localRate, localRefundDate);
-        
         calculateQuota(interest, mount, rate);
 
         console.log(quota.toFixed(2).toString());
-        
+        navigation.navigate("Details");
+
+        setLocalName('');
+        setLocalEmail('');
+        setLocalPhone('');
+        setLocalDirection('');
+        setLocalMount(0);
+        setLocalInterest(0);
+        setLocalRate(0);
+        setLocalRefundDate('');
     };
 
     const handleNumericInput = (setter: React.Dispatch<React.SetStateAction<number>>, value: string) => {
@@ -117,7 +127,7 @@ export const LoanForm = () => {
             </View>
 
             <View>
-                <Text style={styles.inputTitle}>Plazos</Text>
+                <Text style={styles.inputTitle}>Plazos (meses)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Plazos"
@@ -132,7 +142,7 @@ export const LoanForm = () => {
                 <Text style={styles.inputTitle}>Fecha de desembolso</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Fecha de desembolso"
+                    placeholder="Fecha de desembolso (meses)"
                     placeholderTextColor={'#626262'}
                     value={localRefundDate}
                     onChangeText={setLocalRefundDate}
