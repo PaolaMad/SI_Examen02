@@ -42,7 +42,7 @@ export const AmortizationPlan = () => {
             <View style={styles.body}>
                 <Text style={styles.data}>{formattedMount}</Text>
                 <Text style={styles.data}>{formattedInterest}</Text>
-                <Text style={styles.data}>{formattedRate}</Text>
+                <Text style={styles.data}>{formattedRate} meses</Text>
                 <Text style={styles.data}>{refundDate}</Text>
             </View>
 

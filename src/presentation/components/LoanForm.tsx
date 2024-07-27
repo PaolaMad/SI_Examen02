@@ -142,7 +142,7 @@ export const LoanForm = () => {
                 <Text style={styles.inputTitle}>Fecha de desembolso</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Fecha de desembolso (meses)"
+                    placeholder="Fecha de desembolso"
                     placeholderTextColor={'#626262'}
                     value={localRefundDate}
                     onChangeText={setLocalRefundDate}
