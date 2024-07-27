@@ -1,8 +1,31 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useProfileStore } from '../stores/profile-store';
 
 export const LoanForm = () => {
-    const [personalInfo, setPersonalInfo] = useState([]);
+    const { name, email, phone, direction, mount, interest, rate, refundDate, changeProfile } = useProfileStore();
+
+    const [localName, setLocalName] = useState(name);
+    const [localEmail, setLocalEmail] = useState(email);
+    const [localPhone, setLocalPhone] = useState(phone);
+    const [localDirection, setLocalDirection] = useState(direction);
+    const [localMount, setLocalMount] = useState(mount);
+    const [localInterest, setLocalInterest] = useState(interest);
+    const [localRate, setLocalRate] = useState(rate);
+    const [localRefundDate, setLocalRefundDate] = useState(refundDate);
+
+    const handleSaveProfile = () => {
+        changeProfile(localName, localEmail, localPhone, localDirection, localMount, localInterest, localRate, localRefundDate);
+    };
+
+    const handleNumericInput = (setter: React.Dispatch<React.SetStateAction<number>>, value: string) => {
+        const numericValue = Number(value);
+        if (!isNaN(numericValue)) {
+            setter(numericValue);
+        }
+    };
+
+
     return (
         <View style={styles.container}>
 
@@ -17,6 +40,8 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Ingrese su nombre"
                     placeholderTextColor={'#626262'}
+                    value={localName}
+                    onChangeText={setLocalName}
                 />
             </View>
 
@@ -26,7 +51,8 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Ingrese su dirección de correo electrónico"
                     placeholderTextColor={'#626262'}
-
+                    value={localEmail}
+                    onChangeText={setLocalEmail}
                 />
             </View>
 
@@ -36,7 +62,8 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Ingrese su teléfono"
                     placeholderTextColor={'#626262'}
-
+                    value={localPhone}
+                    onChangeText={setLocalPhone}
                 />
             </View>
 
@@ -46,7 +73,8 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Ingrese su dirección"
                     placeholderTextColor={'#626262'}
-
+                    value={localDirection}
+                    onChangeText={setLocalDirection}
                 />
             </View>
 
@@ -58,7 +86,9 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Monto"
                     placeholderTextColor={'#626262'}
-
+                    value={String(localMount)}
+                    onChangeText={(value) => handleNumericInput(setLocalMount, value)}
+                    keyboardType="numeric"
                 />
             </View>
 
@@ -68,6 +98,9 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Tasa de interés"
                     placeholderTextColor={'#626262'}
+                    value={String(localInterest)}
+                    onChangeText={(value) => handleNumericInput(setLocalInterest, value)}
+                    keyboardType="numeric"
 
                 />
             </View>
@@ -78,7 +111,9 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Plazos"
                     placeholderTextColor={'#626262'}
-
+                    value={String(localRate)}
+                    onChangeText={(value) => handleNumericInput(setLocalRate, value)}
+                    keyboardType="numeric"
                 />
             </View>
 
@@ -88,12 +123,14 @@ export const LoanForm = () => {
                     style={styles.input}
                     placeholder="Fecha de desembolso"
                     placeholderTextColor={'#626262'}
-
+                    value={localRefundDate}
+                    onChangeText={setLocalRefundDate}
                 />
             </View>
 
             <Pressable
                 style={styles.button}
+                onPress={handleSaveProfile}
             >
                 <Text style={styles.textButton}>Enviar y Calcular</Text>
             </Pressable>
